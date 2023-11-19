@@ -1,0 +1,50 @@
+.audio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    color: white;
+}
+
+.song-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.song-info img {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.song-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-audio {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.x {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e7ebe9;
+    color: black;
+}
+audio{
+    
+    border-radius: 50%;
+}

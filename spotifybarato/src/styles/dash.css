@@ -1,0 +1,141 @@
+.monaco1 {
+  float: left;
+}
+
+.cabecera1 {
+  width: 13%;
+  padding: 20px;
+  background-color: rgb(16, 46, 165);
+  float: left;
+}
+
+.listado1 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.carta1 {
+  display: flex;
+  margin-top: 40px;
+  align-items: center;
+  margin-bottom: 50px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.carta1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+}
+
+.carta-dash1 {
+  display: flex;
+  margin-top: 40px;
+  align-items: center;
+  
+  padding: 10px;
+  background-color: #ffffffe1;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.carta-dash1:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+}
+
+.carta-dash1 img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.dash1 {
+  font-weight: bold;
+}
+
+.carta1 img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.carta-titulo1 {
+  font-weight: bold;
+}
+
+.muestra1 {
+  margin-top: 20px;
+}
+
+/* Estilos adicionales */
+.dash1 {
+  text-align: center;
+}
+
+.unit1 {
+  width: 50%;
+}
+
+.yezz1 {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+}
+
+.ges1 {
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgb(234, 223, 223);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* Cards */
+.Menu-Principal {
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ti{
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px
+}
+.carta2 {
+  margin: 10px;
+  cursor: pointer;
+  width: calc(30% - 20px);
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.grupo2 {
+  width: 50%;
+  height: auto;
+  margin-top: 20px;
+  margin-left: 100px;
+}
+.ft{
+  color: black;
+}
+.carta-titulo2 {
+  padding: 30px;
+  font-weight: bold;
+  
+  text-align: center;
+}
