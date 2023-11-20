@@ -21,11 +21,12 @@ const updatePlayer = (uri) => {
  
 
   return (
-    <div>
-      {token && <SpotifyPlayer token='BQDFbl6-up_jhMzjcPvdMSVZtT-9baz6azy2RIwZjz109UNI5LWyc01RN5tQN8wxGT641ORDxvB2XlZDmZo2Pm3IBZpaAPbNaWBEQQQ8KaYqgeSpWe5qE4qf9SN50QZnCij2WvFa575Vcbb6L1HQWfCccpyqvm-BQZwwXy6KsREJJY4hxQ6G9UDHt_m9QqwLEDEU833ZmEf0bDbKM8OJNYqNgZQ8T31E
+    <div style={{ position: 'fixed', bottom: 0, width: '100%' }} >
+      {token && <SpotifyPlayer token='BQDv6Lwv0dTLFeORWaRVQdcOJt_vuzwuoZM2Rlr4uvDIENudpGaz93CjJ7Tw0Ul2rEfngX8iG5qqGa853Mi_xJF-dgFnPNljWt-dFKzSwVF7SmFQ5ZJFI-xQCgGNpQiuRMukoAZ7bClgR3omD8TTWus5gRXZKZrIj-U3ziGysZoya2qMyzLD7kSBYSGGPGFhjrAarctEXfYCM0-4eUnr63O9_y5Ubtu-
 ' 
       uris={trackUri ? [trackUri] : []}
-      styles={{
+      styles={
+        {
         bgColor: '#333',
         color: '#fff',
         loaderColor: '#fff',
@@ -33,6 +34,9 @@ const updatePlayer = (uri) => {
         savedColor: '#fff',
         trackArtistColor: '#ccc',
         trackNameColor: '#fff',
+        
+        
+
       }} />}
     </div>
   );

@@ -23,6 +23,10 @@ import Torero from './components/torero.jsx';
 import NotFoundPage from './pages/404.jsx';
 import DetalleCancion from './pages/detallescancion.jsx';
 import Megusta from './pages/megusta.jsx';
+import EmbedPage from './components/redireccionembed.jsx';
+import PlayEmb from './pages/redireccionplay.jsx';
+import ArtistEmb from './pages/redireccionamientoarrista.jsx';
+import SavedPlaylist from './pages/PlaylistGuardadas.jsx';
 
 function App() {
   return (
@@ -51,6 +55,10 @@ function App() {
           <Route path='/notfoundpage' element={<NotFoundPage />} />
           <Route path='/detalles' element={<DetalleCancion />} />
           <Route path='/likeit' element={<Megusta />} />
+          <Route path="/embed/album/:id" Component={EmbedPage} />\
+          <Route path="/embed/playlist/:id" Component={PlayEmb} />
+          <Route path="/embed/artist/:id" Component={ArtistEmb} />
+          <Route path="/agregados" element={<SavedPlaylist/>} />
         
           
 

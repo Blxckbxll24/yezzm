@@ -15,7 +15,7 @@ function Salma(){
   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
   loading="lazy"
 />
-<Player></Player>
+
         </>
     )
 }

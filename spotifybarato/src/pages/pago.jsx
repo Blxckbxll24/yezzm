@@ -12,6 +12,10 @@ initMercadoPago("TEST-b17ac1d1-6acf-4b6c-ac1b-01e05efd2fca");
 
 function Pago() {
   const [preferenceId, setPreferenceId] = useState(null);
+  const [showPayPalButtons, setShowPayPalButtons] = useState(false);
+  const [showPayPalmerca, setShowPayPalmerca] = useState(false);
+
+
 
   const createPreference = async () => {
     try {
@@ -32,7 +36,23 @@ function Pago() {
     if (id) {
       setPreferenceId(id);
        // Mostramos la mini-pestaña popup cuando se obtiene el ID de preferencia
+       
+
     }
+    setShowPayPalButtons(true);
+    setShowPayPalmerca(false);
+  };
+
+  const handleBuypaypal = async () => { // Recibimos el precio como argumento
+    const id = await createPreference(); // Pasamos el precio como argumento
+    if (id) {
+      setPreferenceId(id);
+       // Mostramos la mini-pestaña popup cuando se obtiene el ID de preferencia
+       
+
+    }
+    setShowPayPalmerca(true);
+    setShowPayPalButtons(false)
   };
   
     return (
@@ -80,7 +100,10 @@ function Pago() {
         </article>
         <article className={styles.arr}>
           <h3>Métodos de pago</h3>
-        <PayPalButtons className={styles.pay}
+          <button onClick={handleBuypaypal}>comprar paypal</button>
+          {showPayPalmerca &&(
+            <>
+            <PayPalButtons className={styles.pay}
               createOrder={(data, actions) => {
                 return actions.order.create({
                   purchase_units: [
@@ -97,11 +120,23 @@ function Pago() {
                 console.error("Error al procesar el pago:", error);
               }}
             />
+            </>
+          )
+
+          }
+        
         </article> 
         <button onClick={handleBuy}>
           comprar
         </button>
-         <Wallet initialization={{ preferenceId }} />
+        {showPayPalButtons && (
+          <>
+          <Wallet initialization={{ preferenceId }} />
+          </>
+        )
+
+        }
+         
         
     </section>
     </PayPalScriptProvider>

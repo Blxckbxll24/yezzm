@@ -1,0 +1,76 @@
+.app-body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.songlist {
+    list-style: none;
+    padding: 0;
+    max-width: 300px;
+    width: 100%;
+}
+
+.songitem {
+    background-color: #161616;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+    overflow: hidden;
+    display: flex;
+}
+
+.songimage {
+    width: 80px; /* Ajusta el ancho según tus preferencias */
+    height: 100%; /* Ocupa la altura completa */
+    object-fit: cover;
+}
+
+.songdetails {
+    padding: 16px;
+}
+
+.songtitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: white;
+    margin-left: 25px;
+}
+
+.songartist {
+    color: #201a1a;
+    font-size: 1em;
+}
+
+.songduration {
+    color: #fcfcfc;
+    font-size: 0.8em;
+    margin-bottom: 8px;
+}
+
+.likebutton {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 10%;
+    margin-left: 50%;
+}
+
+.likebutton:hover {
+    background-color: #1a845e;
+}
+.xxx{
+    width: 350%;
+    display: grid;
+    grid-template-columns: repeat(250px, 4fr);
+    margin-left: 75px;
+}

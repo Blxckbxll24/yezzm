@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/buscador.css';
-import { Link,use } from 'react-router-dom';
+import { Link, use } from 'react-router-dom';
 import Player from './reproductor';
+import SpotifyEmbed from '../components/embedalbum';
 
 const CLIENT_ID = "453d6c17658a4a4a8498f17cb1b22b75";
 const CLIENT_SECRET = "6d243006672b46cea52da45f4fa7b0f7";
@@ -16,6 +17,9 @@ function Buscador() {
     const [showResults, setShowResults] = useState(false); // Nuevo estado
     const [likedSongs, setLikedSongs] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState(null);
+    const [likedPlaylist, setLikedPlaylist] = useState([]);
+    const [likedAlbum, setLikedAlbum] = useState([]);
+
 
     useEffect(() => {
         // Obtener la lista de "Me gusta" desde localStorage al cargar el componente
@@ -24,6 +28,21 @@ function Buscador() {
             setLikedSongs(JSON.parse(storedLikedSongs));
         }
     }, []);
+
+    useEffect(() => {
+        const storedLikedPlaylist = localStorage.getItem('likedPlaylist');
+        if (storedLikedPlaylist) {
+            setLikedPlaylist(JSON.parse(storedLikedPlaylist));
+        }
+    }, []);
+    useEffect(() => {
+        const storedLikedAlbum = localStorage.getItem('likedAlbum');
+        if (storedLikedAlbum) {
+            setLikedAlbum(JSON.parse(storedLikedAlbum));
+        }
+    }, []);
+
+
 
     useEffect(() => {
         // Recuperar géneros desde el almacenamiento local
@@ -58,7 +77,7 @@ function Buscador() {
                 setShowGenres(true);
             });
     }
-    
+
 
     useEffect(() => {
         var authParameters = {
@@ -104,12 +123,12 @@ function Buscador() {
         var songsData = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=track', searchParameters)
             .then(response => response.json())
             .then(data => data.tracks.items);
-            
+
 
         var albumsData = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=album', searchParameters)
             .then(response => response.json())
             .then(data => data.albums.items);
-            
+
 
         var playlistsData = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=playlist', searchParameters)
             .then(response => response.json())
@@ -124,13 +143,45 @@ function Buscador() {
             localStorage.setItem('likedSongs', JSON.stringify([...likedSongs, song]));
         }
     };
+    const handleLikeClickArtist = (song) => {
+        if (!likedPlaylist.some((likedPlaylist) => likedPlaylist.id === song.id)) {
+            setLikedPlaylist([...likedPlaylist, song]);
+            localStorage.setItem('likedPlaylist', JSON.stringify([...likedPlaylist, song]));
+        }
+    };
 
-    const handlePlayClick = (e,song) => {
+    const handleLikeClickAlbum = (song) => {
+        if (!likedAlbum.some((likedAlbum) => likedAlbum.id === song.id)) {
+            setLikedAlbum([...likedAlbum, song]);
+            localStorage.setItem('likedAlbum', JSON.stringify([...likedAlbum, song]));
+        }
+    };
+
+    const handlePlayClick = (e, song) => {
         e.preventDefault();
         setSelectedTrack(song);
-    
+
         // Almacena la información de la canción seleccionada en el localStorage
         localStorage.setItem('selectedTrack', JSON.stringify({ uri: song.uri, name: song.name, artist: song.artists[0].name }));
+    };
+
+    const getGenreImage = (genre) => {
+        const imagePathJpg = `../images/${genre}.jpg`;
+        const imagePathJpeg = `../images/${genre}.jpeg`;
+        const defaultImagePath = sinFotoImage;
+
+        try {
+            // Intenta cargar la imagen específica del género en formato jpg
+            return require(imagePathJpg).default;
+        } catch (error) {
+            try {
+                // Si no se encuentra la imagen jpg, intenta cargar la imagen en formato jpeg
+                return require(imagePathJpeg).default;
+            } catch (error) {
+                // Si no se encuentran ambas imágenes, devuelve la imagen por defecto
+                return defaultImagePath;
+            }
+        }
     };
 
     return (
@@ -138,91 +189,103 @@ function Buscador() {
             <aside className='asi'>
                 <div className="menu">
                     <Link className="active" to="/inicio"><span><img src={require('../images/home.svg')} alt="" /></span>Inicio</Link>
-                    <Link to=''><span><img src={require('../images/search.svg')} alt="" /></span>Buscar</Link>
-                    <Link to="/likeit"><span><img src={require('../images/library.svg')} alt="" /></span>Me gusta</Link> <br />
-                    <Link to="#"><span><img src={require('../images/add.svg')} alt="" /></span>Crear lista</Link>
-                    <Link to="#"><span><img src={require('../images/heart.svg')} alt="" /></span>Canciones que te gustan</Link>
+                    <Link to='/buscador'><span><img src={require('../images/search.svg')} alt="" /></span>Buscar</Link>
+                    <Link to="/likeit"><span><img src={require('../images/heart.svg')} alt="" /></span>Canciones que te gustan</Link>
+                    <Link to="/agregados"><span><img src={require('../images/add.svg')} alt="" /></span>Albumes & Playlist guardadas</Link>
                 </div>
             </aside>
             <div className="center-container">
                 <div className="search-container">
                     <section class="middle-section">
-                        <Link to='/inicio'><span><img className='icon' src={require('../images/simbolo-menor-que.jpeg')} alt="" placeholder='volver' title='Volver'/></span></Link>
-                        <Link to=''><span><img className='icon' src={require('../images/mayor-que-el-simbolo.jpeg')} alt="" placeholder='Avanzar' title='Avanzar'/></span></Link>        
+                        <Link to='/inicio'><span><img className='icon' src={require('../images/simbolo-menor-que.jpeg')} alt="" placeholder='volver' title='Volver' /></span></Link>
+                        <Link to=''><span><img className='icon' src={require('../images/mayor-que-el-simbolo.jpeg')} alt="" placeholder='Avanzar' title='Avanzar' /></span></Link>
                         <input type="input" className="search-input" placeholder='¿Qué gustas escuchar?' value={searchInput} onChange={event => setSearchInput(event.target.value)} />
                     </section>
                 </div>
 
-        
-                <div className="results-container">
-                {showGenres && genres.map((genre, index) => (
-                    <div className="result-card" key={index}>
-                        <p className="result-title">{genre}</p>
-                        {/* <img src={require(`../images/${genre}.jpg`)} alt="" /> */}
-                    </div>
-                ))}
-                {showResults && ( // Mostrar resultados si showResults es verdadero
-                    <div className="result-section">
-                        <div className="result-row">
-                            <h2>Artists</h2>
-                            {results.artists && results.artists.map((result, i) => (
-                                <div className="result-card" key={i}>
-                                    <img
-                                        className="result-image"
-                                        src={result.images?.[0]?.url || sinFotoImage}
-                                        alt={result.name}
-                                    />
-                                    <p className="result-title">{result.name}</p>
-                                </div>
-                            ))}
-                        </div>
 
-                        <div className="result-row">
-                            <h2>Songs</h2>
-                            {results.songs && results.songs.map((result, i) => (
-                        <div className="result-card" key={i}>
-                            <img
-                                className="result-image"
-                                src={result.album?.images?.[0]?.url || sinFotoImage}
-                                alt={result.name}
-                            />
-                            <p className="result-title">{result.name}</p>
-                            <button onClick={() => handleLikeClick(result)}>Me gusta</button>
-                            <button onClick={(e) => handlePlayClick(e, result)}>play</button>
+                <div className="results-container">
+                    {showGenres && genres.map((genre, index) => (
+
+                        <div className="result-card" key={index}>
+                            <p className="result-title">{genre}</p>
+                            {/* <img src={require(`../images/${genre}.jpg`) || require(`../images/${genre}.jpeg`) || sinFotoImage} alt="" /> */}
                         </div>
                     ))}
-                        </div>
+                    {showResults && ( // Mostrar resultados si showResults es verdadero
+                        <div className="result-section">
+                            <div className="result-row">
+                                <h2>Artists</h2>
+                                {results.artists && results.artists.map((result, i) => (
+                                    <Link to={`/embed/artist/${result.id}`} key={i}>
+                                        <div className="result-card" key={i}>
+                                            <img
+                                                className="result-image"
+                                                src={result.images?.[0]?.url || sinFotoImage}
+                                                alt={result.name}
+                                            />
+                                            <p className="result-title">{result.name}</p>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
 
-                        <div className="result-row">
-                            <h2>Albums</h2>
-                            {results.albums && results.albums.map((result, i) => (
-                                <div className="result-card" key={i}>
-                                    <img
-                                        className="result-image"
-                                        src={result.images?.[0]?.url || sinFotoImage}
-                                        alt={result.name}
-                                    />
-                                    <p className="result-title">{result.name}</p>
-                                </div>
-                            ))}
-                        </div>
+                            <div className="result-row">
+                                <h2>Songs</h2>
+                                {results.songs && results.songs.map((result, i) => (
+                                    <div className="result-card" key={i}>
+                                        <img
+                                            className="result-image"
+                                            src={result.album?.images?.[0]?.url || sinFotoImage}
+                                            alt={result.name}
+                                        />
+                                        <p className="result-title">{result.name}</p>
+                                        <button onClick={() => handleLikeClick(result)}>Me gusta</button>
+                                        <button onClick={(e) => handlePlayClick(e, result)}>play</button>
+                                    </div>
+                                ))}
+                            </div>
 
-                        <div className="result-row">
-                            <h2>Playlists</h2>
-                            {results.playlists && results.playlists.map((result, i) => (
-                                <div className="result-card" key={i}>
-                                    <img
-                                        className="result-image"
-                                        src={result.images?.[0]?.url || sinFotoImage}
-                                        alt={result.name}
-                                    />
-                                    <p className="result-title">{result.name}</p>
-                                </div>
-                            ))}
+                            <div className="result-row">
+                                <h2>Albums</h2>
+                                {results.albums && results.albums.map((result, i) => (
+
+                                    <div className="result-card" key={i}>
+                                        <Link to={`/embed/album/${result.id}`} key={i}>
+                                            <img
+                                                className="result-image"
+                                                src={result.images?.[0]?.url || sinFotoImage}
+                                                alt={result.name}
+                                            />
+                                            <p className="result-title">{result.name}</p>
+                                        </Link>
+                                        <button onClick={() => handleLikeClickArtist(result)}>Me gusta</button>
+                                    </div>
+
+                                ))}
+                            </div>
+
+                            <div className="result-row">
+                                <h2>Playlists</h2>
+                                {results.playlists && results.playlists.map((result, i) => (
+                                    
+                                        <div className="result-card" key={i}>
+                                            <Link to={`/embed/playlist/${result.id}`} key={i}>
+                                            <img
+                                                className="result-image"
+                                                src={result.images?.[0]?.url || sinFotoImage}
+                                                alt={result.name}
+                                            />
+                                            <p className="result-title">{result.name}</p>
+                                            </Link>
+                                            <button onClick={() => handleLikeClickAlbum(result)}>Me gusta</button>
+                                        </div>
+                                   
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
             </div>
             <Player></Player>
         </div>

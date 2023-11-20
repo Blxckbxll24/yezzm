@@ -30,6 +30,7 @@ body{
     width: 100%;
     display: flex;
     flex-direction: column;
+    
 }
 .container aside .menu a{
     text-decoration: none;
@@ -341,3 +342,9 @@ body{
     font-weight: bold;
     margin-bottom: 5px;
   }
+  .content h1 {
+    margin-left: 20px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    text-shadow: 4px 2px 4px rgba(0, 0, 0, 10);
+}
