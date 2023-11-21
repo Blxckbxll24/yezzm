@@ -348,3 +348,16 @@ body{
     margin-top: 20px;
     text-shadow: 4px 2px 4px rgba(0, 0, 0, 10);
 }
+.wea{
+    font: bold;
+    
+}
+.datos img{
+    width: 50px;
+    height: 50px;
+    
+}
+.datos{
+    margin-top: 145%;
+    margin-left: 22.5px;
+}

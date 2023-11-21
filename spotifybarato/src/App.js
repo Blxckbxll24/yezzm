@@ -27,6 +27,7 @@ import EmbedPage from './components/redireccionembed.jsx';
 import PlayEmb from './pages/redireccionplay.jsx';
 import ArtistEmb from './pages/redireccionamientoarrista.jsx';
 import SavedPlaylist from './pages/PlaylistGuardadas.jsx';
+import YouTubeMusicSearch from './pages/youtube.jsx';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/embed/playlist/:id" Component={PlayEmb} />
           <Route path="/embed/artist/:id" Component={ArtistEmb} />
           <Route path="/agregados" element={<SavedPlaylist/>} />
+          <Route path="/youtube" element={<YouTubeMusicSearch/>} />
         
           
 

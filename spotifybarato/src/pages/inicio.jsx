@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Player from "./reproductor";
-
+//Funciones del Clima
 function Inicio() {
     const [user, setUser] = useState([]);
     const [userData, setUserData] = useState([]);
@@ -52,6 +52,48 @@ function Inicio() {
         localStorage.removeItem('facebookUserData');
     };
 
+    //Funciones del clima
+    const api = {
+        key: "c1505a0fddf97748788a84ef83f9461a",
+        base: "https://api.openweathermap.org/data/2.5/"
+      };
+      const translateWeatherMain = (main) => {
+        switch (main) {
+          case "Clear":
+            return "Despejado";
+          case "Clouds":
+            return "Nublado";
+          case "Rain":
+            return "Lluvia";
+          default:
+            return main;
+        }
+    };
+        const [search, setSearch] = useState("");
+        const [weather, setWeather] = useState(null);
+        
+        useEffect(() => {
+          if (!weather) {
+            fetch(`${api.base}weather?q=Cancun&units=metric&lang=es&APPID=${api.key}`)
+              .then((res) => res.json())
+              .then((result) => {
+                setWeather(result);
+              });
+          }
+        }, [weather]);
+      
+        const searchPressed = () => {
+            fetch(`${api.base}weather?q=${search}&units=metric&lang=es&APPID=${api.key}`)
+            .then((res) => res.json())
+            .then((result) => {
+              setWeather(result);
+              setSearch("");
+            });
+        
+        };
+        
+    
+
     return (
         <>
             <body>
@@ -64,7 +106,21 @@ function Inicio() {
                             <Link to='/buscador'><span><img src={require('../images/search.svg')} alt="" /></span>Buscar</Link>
                             <Link to="/likeit"><span><img src={require('../images/heart.svg')} alt="" /></span>Canciones que te gustan</Link>
                             <Link to="/agregados"><span><img src={require('../images/add.svg')} alt="" /></span>Albumes & Playlist guardadas</Link>
-                            
+                            {/* Apartado del */}
+                            <div className="clow">
+                                
+                            {weather && (
+                                <div className={styles.datos}>
+                                  <img class={styles.wea} src={require('../images/nubes.png')} alt="" />  <br />
+                               
+                                
+                                <span class={styles.wea}>{weather.main.temp}°C</span><br />
+                                <span class={styles.wea}>{weather.name}</span>
+                                </div>
+                            )}
+                                </div>
+                            {/* ------ */}
+
                         </div>
                     </aside>
                     <section className={styles.casco}>
@@ -76,10 +132,6 @@ function Inicio() {
                                 </button></Link>
                             </div>
 
-
-
-
-
                             <div className={styles.suscribcion}>
                                 <div className={styles.perfil} onClick={handleProfileClick}>
                                     {loggedIn ? (
@@ -87,7 +139,7 @@ function Inicio() {
                                             <span className={styles.circulo}>
                                                 <img className={styles.circulo} src={profile.picture} alt="Imagen de perfil" />
                                             </span>
-                                            <span className={styles.nombre}>Tu perfil</span>
+                                            <span className={styles.nombre}>Perfil</span>
                                             <span>
                                                 <img src={require('../images/salir.svg')} alt="" />
                                             </span>
@@ -106,9 +158,9 @@ function Inicio() {
                                             <span className={styles.circulo}>
                                                 <img className={styles.circulo} src={profile.picture} alt="Imagen de perfil" />
                                             </span>
-                                            <span className={styles.nombre}>Nombre: {profile.name}</span>
-                                            <span className={styles.nombre}>Email: {profile.email}</span>
-                                            <button className={styles.boton} onClick={logOut}>Cerrar sesión</button>
+                                            <span className={styles.nombre}> {profile.name}</span>
+                                            <span className={styles.nombre}> {profile.email}</span>
+                                            <button className={styles.boton0} onClick={logOut}>Cerrar sesión</button>
                                         </div>
                                     )}
                                 </div>
@@ -157,8 +209,10 @@ function Inicio() {
                                     <Link className={styles.card_text} to='/finde'>
                                         <div className={styles.card_imagen}><img src={require('../images/afterhours.jpeg')} alt="" /></div>
                                         <div className={styles.card_text}>
+                                        
                                             <h4>After Hours</h4>
                                             <img src={require('../images/play.svg')} alt="" />
+                                    
                                         </div>
                                     </Link>
                                 </div>

@@ -1,116 +1,151 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-.Cabecilla{
-    background-color:#2b5ac0 ;
-    color:white;
-    padding: 15px;
-}
-.Idioma{
-    margin-left: 25px;
-}
-.Ramt{
-    background-color: black;
-    color: white;
-    
-}
-.Yess{
-    display: inline-flex;
-    padding: 5px;
-}
-.Logo{
-    border-radius: 200px;
-    width: 70px;
-    height: 70px;
-}
-.App{
-    margin-top: 25px;
-    margin-left: 10px;
-    font-weight: bolder;
-    font-size: 30px;
-}
-.App1{
-    margin-left: 200px;
-}
-.Liss{
-    margin-left: 1100px;
-    list-style: none;
-    margin-top: 15px;
-    cursor: pointer;
-}
-.Mediante{
-    padding-bottom: 20px;
-}
-.nest{
-    color:white;
-    display: inline-flex;
-    margin-left: 450px;
-}
-.Plan{
-    font-size: 25px;
-    font-weight: bolder;
-
-}
-.Cambiar{
-    margin-top: 10px;
-    margin-left: 350px;
-    text-decoration: underline;
-    color: #e0caca;
-    font-weight: bolder;
-    cursor: pointer;
-}
-.cajamedio{
-    background-color: azure;
-    width: 35%;
-    margin-left: 450px;
-    border-radius: 10px;
-    font-weight: bolder;
-}
-.Par1{
-    background-color: rgb(209, 32, 32);
-    margin-top: 10px;
-    border-radius: 10px 10px 0px 0px ;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding: 20px;    
-    
-}
-.PILLS{
-    font-weight: lighter;
-    font-size: 14px;
+.Cabecilla {
     display: flex;
-    
-}
-.Par2{
-
-    color: black;
-    padding-left: 2%;   
-}
-.Par3{
-    font-weight: lighter;
-}
-.pay{
-    padding-left: 40%;
-    width: 100px;
-    padding-top: 4%;
-}
-.arr{
-    background-color: white;
-    padding-top: 1%;
-    color: black;
-}
-.arr h3{
-    background-color: white;
-    color: black;
-    padding-left: 39%;
-}
- .suscribcion .perfil .circulo{
-    background-color: #710563;
-    border-radius: 40%;
-    width: 100px;
-    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #2340ab;
+    color: white;
+  }
+  
+  .Idioma {
+    font-size: 15px;
+    color: #f8f5f5;
+    font-weight: bold;
+  }
+  .regreso{
+    color: white;
+    padding: 10px;
+    background-color: #2340ab;
+    border-radius: 3px;
+  }
+  .regreso:hover{
+    background-color: #273e93;
+  }
+  
+  .nombre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .circulo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #eaeaea;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
+  /* Estilos para el artículo */
+
+ 
+.Ramt {
+    margin: 40px;
+  }
+  
+  .Mediante {
+    margin-top: 15px;
+    background-color: #faf8fa;
+    border-radius: 10px;
+    padding: 20px;
+    color: black;
+    font-weight: bold;
+    width: 70%;
+    box-shadow: 2px 5px 5px 5px rgba(0.2, 0.2, 0.2, 0.2);
+    margin-left: 250px;
+  }
+  
+  .Plan {
+    font-size: 24px;
+    font-weight: bold;
+
+  }
+  
+  .Cambiar {
+    color: #1db954;
+    font-size: 14px;
+  }
+  
+  .cajamedio {
+    display: flex;
+
+  }
+  
+  .Par1 {
+    width: 55%;
+    margin-top: 20px;
+    margin-left: 25px;
+  }
+  .logo{
+    width: 25%;
+    border-radius: 5px;
+  }
+  .PILL {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .PILLS {
+    color: #121010;
+  }
+  
+  .Par2 {
+    width: 40%;
+  }
+  
+  .PILL2 {
+    font-size: 16px;
+  }
+  
+  .Par3 {
+    width: 30%;
+  }
+  
+  .PILL3 {
+    font-size: 14px;
+  }
+  
+  .arr {
+    margin-top: 20px;
+  }
+  
+  .pagos {
+    font-size: 24px;
+    text-align: center;
+  }
+  /* Estilos generales */
+  .button_container {
+    margin-top: 20px;
+    display: inline-block;
+    margin-left: 650px;
+    
+  }
+  .titu{
+    text-align: center;
+    font-weight: bold;
+    
+  }
+  
+  .par {
+    background-color: rgb(66, 70, 138);
+    color: white;
+    padding: 10px 40px;
+    margin-top: 20px;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    
+  }
+  .par:hover{
+    background-color: #3e3f5e;
+    color: white;
+
+  }
+  
+  .pay {
+    margin-top: 10px;
+  }

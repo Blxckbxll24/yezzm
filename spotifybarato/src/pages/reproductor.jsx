@@ -22,7 +22,7 @@ const updatePlayer = (uri) => {
 
   return (
     <div style={{ position: 'fixed', bottom: 0, width: '100%' }} >
-      {token && <SpotifyPlayer token='BQDv6Lwv0dTLFeORWaRVQdcOJt_vuzwuoZM2Rlr4uvDIENudpGaz93CjJ7Tw0Ul2rEfngX8iG5qqGa853Mi_xJF-dgFnPNljWt-dFKzSwVF7SmFQ5ZJFI-xQCgGNpQiuRMukoAZ7bClgR3omD8TTWus5gRXZKZrIj-U3ziGysZoya2qMyzLD7kSBYSGGPGFhjrAarctEXfYCM0-4eUnr63O9_y5Ubtu-
+      {token && <SpotifyPlayer token='BQD0F0QnIazyEgF_QJJXbXpslG1TW43Ee79WX6TwDQWLINVuHMvzYExSuPZs345JX0pDekHDFqtcJxt-jbgToyAo4f0mrFLFk5ZlJahzMajaGOWJPNQ1lBtZnXh-efVukDPjcxKZaP62pFeZacPOELig-_MqblFSlQgq2yb7VOZw9dSADhFaDQWiA4o5zl2lWL5249x40q-RSz5_R8qHbVnsRZOqX9K0
 ' 
       uris={trackUri ? [trackUri] : []}
       styles={

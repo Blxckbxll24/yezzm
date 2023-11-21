@@ -1,21 +1,17 @@
-import React , {useState}from "react";
+import React, { useState } from "react";
 import styles from '../styles/pago.module.css'
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const PAYPAL_CLIENT_ID = 'AdwObl8zvI4sB0iG1UJi85kaIBMaL8wQkh6obtqTqNIrS-z7gVfM7KZB61jlnzC_w9zMzuIJDDeO-DuS';
 initMercadoPago("TEST-b17ac1d1-6acf-4b6c-ac1b-01e05efd2fca");
-
-
-
 
 function Pago() {
   const [preferenceId, setPreferenceId] = useState(null);
   const [showPayPalButtons, setShowPayPalButtons] = useState(false);
   const [showPayPalmerca, setShowPayPalmerca] = useState(false);
-
-
 
   const createPreference = async () => {
     try {
@@ -31,120 +27,106 @@ function Pago() {
       console.log(error);
     }
   };
-  const handleBuy = async () => { // Recibimos el precio como argumento
-    const id = await createPreference(); // Pasamos el precio como argumento
+
+  const handleBuy = async () => {
+    const id = await createPreference();
     if (id) {
       setPreferenceId(id);
-       // Mostramos la mini-pestaña popup cuando se obtiene el ID de preferencia
-       
-
     }
     setShowPayPalButtons(true);
     setShowPayPalmerca(false);
   };
 
-  const handleBuypaypal = async () => { // Recibimos el precio como argumento
-    const id = await createPreference(); // Pasamos el precio como argumento
+  const handleBuypaypal = async () => {
+    const id = await createPreference();
     if (id) {
       setPreferenceId(id);
-       // Mostramos la mini-pestaña popup cuando se obtiene el ID de preferencia
-       
-
     }
     setShowPayPalmerca(true);
     setShowPayPalButtons(false)
   };
-  
-    return (
-        <><body>
-<PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID, "currency": "MXN" }}>
-       
-        <header class={styles.Cabecilla}>
-            <p class={styles.Idioma}> México (Español)</p>
+
+  return (
+    <>
+      <body>
+        <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID, "currency": "MXN" }}>
+          <header className={styles.Cabecilla}>
+            <p className={styles.Idioma}> México (Español)</p> 
+            <div className="perfiles">
+              <span className={styles.circulo}><img src={require('../images/user.svg')} alt="" /></span>
+              <span className={styles.nombre}>Perfil</span>
+            </div> 
+          </header>
+
+          <section className={styles.Ramt}>    
+            <article className={styles.Mediante}>
+              <Link className={styles.regreso} to='/inicio'>Regresar a Inicio</Link>
+              <div className={styles.cajamedio}>
+                <div className={styles.Par1}>
+                  <p className={styles.Plan}>Tu plan</p>
+                  <p className={styles.PILLS}>Cuenta Premium</p>
+                  <img className={styles.logo} src={require('../images/Untitled.png')} alt="" />
+                </div>
+                <div className={styles.Par2}>
+                  <p className={styles.PILL2}>A partir de Hoy</p>
+                  <p className={styles.PILL2}>Próxima fecha de facturación</p>
+                  <p className={styles.PILL2}>129,00 MXN al mes</p>
+                  <p className={styles.PILL2}>21-Nov-23</p>
+                  <div className={styles.Par3}>
+                    <p className={styles.PILL3}>Luego, tu fecha de facturación será el 20 sep 2023</p>
+                    <p className={styles.PILL3}>Cancela cuando quieras. Se aplican <a href="#" className="Ter">Términos de la oferta</a></p>
+                  </div>
+                </div>
+              </div>
+            </article>
             
-        </header>
-    
-        
-        <section class={styles.Ramt}>
-        <div className={styles.suscribcion}>
-                                <div className={styles.perfil}>
-                                    <span className={styles.circulo}><img src={require('../images/user.svg')} alt="" /></span>
-                                    <span className={styles.nombre}>Tu perfil</span>
-                                    <span><img src={require('../images/salir.svg')} alt="" /></span>
-                                </div>
-                            </div>
-    
-        
-        <article class={styles.Mediante}>
-            <div class={styles.nest}>
-                <p class={styles.Plan}>Tu plan</p>
-                <p class={styles.Cambiar}></p>
-            </div>
-            <div class={styles.cajamedio}>
-            <div class={styles.Par1}>
-                <p class={styles.PILL}>Premium</p>
-                <p class={styles.PILLS}>Cuenta Premium</p>
-            </div>
-            <div class={styles.Par2}>
-                <p class={styles.PILL2}>Apartr de Hoy</p>
-                <p class={styles.PILL2}>Proxima fecha de facturación</p>
-                <p class={styles.PILL2}>129,00 MXN al mes</p>
-                <p class={styles.PILL2}>28-Sep-23</p>
-            
-            <div class={styles.Par3}>
-                <p class={styles.PILL3}>Luego, tu fecha de facturación será el 20 sep 2023</p>
-                <p class={styles.PILL3}>Cancela cuando quieras. Se aplican <a href="#" class="Ter">Términos de la oferta</a></p>
-            </div>
-        </div>
-            </div>
-        </article>
-        <article className={styles.arr}>
-          <h3>Métodos de pago</h3>
-          <button onClick={handleBuypaypal}>comprar paypal</button>
-          {showPayPalmerca &&(
-            <>
-            <PayPalButtons className={styles.pay}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: 129,
-                      },
-                    },
-                  ],
-                });
-              }}
+            <section className={styles.button_container}>
+              {/* Métodos de pagos: PayPal */}
+              <h3 class={styles.titu}>Forma de Pago</h3>
+              <button className={styles.par} onClick={handleBuypaypal}>
+              <img className={styles.Pay} src={require('../images/paypal.jpeg')} alt="" />
+                Comprar con PayPal
+              </button>
               
-              onError={(error) => {
-                console.error("Error al procesar el pago:", error);
-              }}
-            />
-            </>
-          )
-
-          }
-        
-        </article> 
-        <button onClick={handleBuy}>
-          comprar
-        </button>
-        {showPayPalButtons && (
-          <>
-          <Wallet initialization={{ preferenceId }} />
-          </>
-        )
-
-        }
-         
-        
-    </section>
-    </PayPalScriptProvider>
-    </body>
-    
-
-        </>
-    )
+              {showPayPalmerca && (
+                <>
+                  <PayPalButtons className={styles.pay}
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: 129,
+                            },
+                          },
+                        ],
+                      });
+                    }}
+                    
+                    onError={(error) => {
+                      console.error("Error al procesar el pago:", error);
+                    }}
+                  />
+                </>
+              )}
+              
+              <section className="par">
+              <button className={styles.par} onClick={handleBuy}>
+              <img className={styles.Pay} src={require('../images/mercado-pago.jpeg')} alt="" />
+                Comprar con Mercado Pago
+              </button>
+              {showPayPalButtons && (
+                <>
+                  <Wallet initialization={{ preferenceId }} />
+                </>
+              )}
+              </section>
+            </section>
+          </section>
+        </PayPalScriptProvider>
+      </body>
+    </>
+  );
 }
 
 export default Pago;

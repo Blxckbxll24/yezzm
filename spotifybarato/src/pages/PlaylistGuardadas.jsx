@@ -61,7 +61,8 @@ function SavedPlaylist() {
                                 <img className="song-image" src={song.images?.[0]?.url} alt={song.name} />
                                 <div className="song-details">
                                     <div className="song-title">{song.name}</div>
-                                    <div className="song-artist">{song.artist}</div>
+                                    <div className="song-artist">{song.artists && song.artists.length > 0 ? song.artists[0].name : 'Desconocido'}</div>
+
                                     <div className="song-duration">Salió: {song.release_date}</div>
                                 </div>
                                 </Link>
@@ -75,7 +76,7 @@ function SavedPlaylist() {
                                 <div className="song-details">
                                     <div className="song-title">{song.name}</div>
                                     <div className="song-artist">{song.artist}</div>
-                                    <div className="song-duration">Salió: {song.release_date}</div>
+                                    <div className="song-duration">De:  {song.owner.display_name}</div>
                                 </div>
                                 </Link>
                                 <button className="like-button" onClick={() => handleDislikeClick(index)}>No me gusta</button>
