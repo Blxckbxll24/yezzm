@@ -147,7 +147,7 @@ function Inicio() {
                                     ) : (
                                         // Si no hay nadie logueado, muestra el botón para ir al inicio
                                         <Link to="/login">
-                                            <button className={styles.boton}>
+                                            <button className={styles.boton1}>
                                                 Inicia Sesión
                                             </button>
                                         </Link>

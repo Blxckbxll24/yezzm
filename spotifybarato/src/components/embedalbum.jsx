@@ -11,7 +11,7 @@ const SpotifyEmbed = ({ trackId }) => {
         title="Spotify Embed: Recommendation Playlist "
         src={embedUrl}
         //   src={`https://open.spotify.com/embed/playlist/4d7JtovGW5iCH9KdWpHTyd?utm_source=generator&theme=0`}
-        width="398%"
+        width="450%"
         height="99.9%"
         style={{
           minHeight: '500px',

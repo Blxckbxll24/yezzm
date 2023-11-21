@@ -9,7 +9,6 @@ const YouTubeMusicSearch = () => {
   const [results, setResults] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [searchOption, setSearchOption] = useState("videos");
-
   const searchMusic = async () => {
     try {
       const response = await axios.get(
@@ -25,7 +24,6 @@ const YouTubeMusicSearch = () => {
           },
         }
       );
-
       setResults(response.data.items);
       setSelectedVideo(null); // Reinicia el video seleccionado al realizar una nueva búsqueda
     } catch (error) {
@@ -34,35 +32,38 @@ const YouTubeMusicSearch = () => {
   };
 
   const opts = {
-    height: '390',
-    width: '640',
+    height: '590',
+    width: '940',
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
     },
   };
 
+  
   return (
-    <div>
+    <div className='grende'>
+
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Buscar música"
-        className="search-input"
+        placeholder="Buscar Video"
+        className="search-video"
       />
-      <button onClick={searchMusic}>Buscar</button>
+      <button className='buscar' onClick={searchMusic}>Buscar</button>
+      
 
-      <ul>
+      <ul className='list'>
         {results.map((item) => (
-          <li key={item.id.videoId} onClick={() => setSelectedVideo(item.id.videoId)}>
+          <li key={item.id.videoId} className='teme'  onClick={() => setSelectedVideo(item.id.videoId)}>
             {item.snippet.title} - {item.snippet.channelTitle}
           </li>
         ))}
       </ul>
 
       {selectedVideo && (
-        <YouTube videoId={selectedVideo} opts={opts} />
+        <YouTube videoId={selectedVideo} className='ventana' opts={opts} />
       )}
     </div>
   );
