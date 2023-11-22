@@ -135,6 +135,33 @@ function Login() {
     localStorage.removeItem('googleUserData');
   };
 
+
+  const [campos, setCampos] = useState({
+    email: "",
+    contrasenia: ""
+});
+const [error, setError] = useState('');
+// Redireccionamiento
+
+
+const acceder = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8082/loginadmin', campos)
+        .then(respuesta => {
+          console.log(respuesta.data);
+            if (respuesta.data.Estatus === "CORRECTO") {
+                // Almacenar el token en el almacenamiento local
+                localStorage.setItem('adminToken', respuesta.data.token);
+                // Redireccionar al dashboard
+                navigate('/dash');
+            } else {
+                setError(respuesta.data.Error);
+            }
+        })
+        .catch(error => alert("error en el correo o la contraseña"));
+}
+
+
   return (
     <>
       <div class={styles.navbar}>
@@ -216,23 +243,23 @@ function Login() {
              <div class={styles.line}></div>
            </div>
            <div class={styles.phonelogin}>
-             <form className={styles.phonelogin}>
+             <form onSubmit={acceder} className={styles.phonelogin}>
                <input
                  className={styles.phonelogin}
                  type="text"
                  placeholder="Email o nombre de usuario"
-               />
+                 onChange={(e) => setCampos({ ...campos, email: e.target.value })} />
                <input
                 className={styles.phonelogin}
-                type="tel"
+                type="password"
                  placeholder="Contraseña"
-               />
-               <Link to="/inicio">
-                 {" "}
+                 onChange={(e) => setCampos({ ...campos, contrasenia: e.target.value })} />
+              
+                 
                  <button className={styles.phonelogin} type="submit">
                   Inicia sesión
                 </button>
-               </Link>
+               
              </form>
            </div>
          </div>

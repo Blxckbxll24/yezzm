@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from '../styles/inicio.module.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Player from "./reproductor";
@@ -11,33 +11,60 @@ function Inicio() {
     const [profile, setProfile] = useState([]);
     const [isProfilePopupVisible, setProfilePopupVisible] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(true);
+    const navigate = useNavigate();
+
     useEffect(() => {
+        // Verificar si existe la clave "pagado" en el localStorage
+        const isPaid = localStorage.getItem('payments');
+        
+        // Si está pagado, actualiza el estado para ocultar el botón de suscripción
+        if (isPaid) {
+          setIsSubscribed(false);
+        }
+      }, []);
+      useEffect(() => {
+        // Verificar si existe la clave "pagado" en el localStorage
+        const isPaid = localStorage.getItem('paypaaaal');
+        
+        // Si está pagado, actualiza el estado para ocultar el botón de suscripción
+        if (isPaid) {
+          setIsSubscribed(false);
+        }
+      }, []);
+    
+
+      useEffect(() => {
         const storedUserDataGoogle = localStorage.getItem('googleUserData');
         const storedUserDataFacebook = localStorage.getItem('facebookUserData');
+    
+        if (!storedUserDataGoogle && !storedUserDataFacebook) {
+          // Si no hay datos de Google o Facebook, navegar al componente de inicio de sesión
+          navigate("/login");
+        }
+    
         if (storedUserDataFacebook) {
-            setProfile(JSON.parse(storedUserDataFacebook));
-            setLoggedIn(true);
+          setProfile(JSON.parse(storedUserDataFacebook));
+          setLoggedIn(true);
         }
-
-
+    
         if (storedUserDataGoogle) {
-            setUser(JSON.parse(storedUserDataGoogle));
-            setLoggedIn(true);
-
-            axios
-                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                    headers: {
-                        Authorization: `Bearer ${user.access_token}`,
-                        Accept: "application/json",
-                    },
-                })
-                .then((res) => {
-                    setProfile(res.data);
-                })
-                .catch((err) => console.log(err));
+          setUser(JSON.parse(storedUserDataGoogle));
+          setLoggedIn(true);
+    
+          axios
+            .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+              headers: {
+                Authorization: `Bearer ${user.access_token}`,
+                Accept: "application/json",
+              },
+            })
+            .then((res) => {
+              setProfile(res.data);
+            })
+            .catch((err) => console.log(err));
         }
-    }, [user]);
-
+      }, [user, navigate]);
 
 
     const handleProfileClick = () => {
@@ -51,6 +78,13 @@ function Inicio() {
         setLoggedIn(false);
         localStorage.removeItem('googleUserData');
         localStorage.removeItem('facebookUserData');
+        localStorage.removeItem('payments');
+        localStorage.removeItem('payments');
+        localStorage.removeItem('payments');
+        localStorage.removeItem('payments');
+        localStorage.removeItem('payments');
+        localStorage.removeItem('paypaaaal');
+        
     };
 
     //Funciones del clima
@@ -127,11 +161,16 @@ function Inicio() {
                     <section className={styles.casco}>
                         <header>
 
-                            <div className={styles.botones_prev_next}>
-                                <Link to='/pago'> <button className={styles.boton}>
-                                    Suscribete
-                                </button></Link>
-                            </div>
+                        <div className={styles.botones_prev_next}>
+        {/* Solo renderizar el botón si no está suscrito */}
+        {isSubscribed  && (
+          <Link to='/pago'>
+            <button className={styles.boton}>
+              Suscríbete
+            </button>
+          </Link>
+        )}
+      </div>
 
                             <div className={styles.suscribcion}>
                                 <div className={styles.perfil} onClick={handleProfileClick}>

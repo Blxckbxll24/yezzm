@@ -3,6 +3,7 @@ import cors from "cors";
 import axios from "axios";
 import mysql from "mysql2";
 import jwt from "jsonwebtoken";
+import mercadopago from "mercadopago";
 
 const app = express();
 
@@ -18,6 +19,80 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
+});
+
+mercadopago.configure({
+  access_token: "APP_USR-6185215701752461-112202-059f8141a1ac0848b1943f8a0990d447-1560959686"
+});
+
+app.get("/", function (req, res) {
+  res.send("¡El servidor de Mercado Pago funciona! :)");
+});
+
+app.post("/create_preference", async (req, res) => {
+  try {
+    const preference = {
+      items: [
+        {
+          title: req.body.description,
+          unit_price: Number(req.body.price),
+          quantity: Number(req.body.quantity),
+        },
+      ],
+      back_urls: {
+        success: "http://localhost:3000/inicio",
+        failure: "http://localhost:3000/pago",
+        pending: "",
+      },
+      auto_return: "approved",
+    };
+
+    const response = await mercadopago.preferences.create(preference);
+
+    res.json({
+      id: response.body.id,
+    });
+  } catch (error) {
+    console.error("Error al procesar la preferencia:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// Endpoint para el webhook de Mercado Pago
+app.post("/mercadopago-webhook", async (req, res) => {
+  try {
+    const payment = req.body;
+
+    // Verificar que el pago esté aprobado
+    if (payment && payment.action === 'payment.updated' && payment.data.status === 'approved') {
+      const nuevaOrden = {
+        fechaCompra: new Date().toISOString(),
+        estado: 'pagado',
+        total: '129',
+      };
+
+      // Insertar la orden en la base de datos
+      const connection = await pool.getConnection();
+      await connection.query('INSERT INTO subs SET ?', nuevaOrden);
+      connection.release();
+    }
+
+    res.status(200).send("OK");
+  } catch (error) {
+    console.error("Error en el webhook de Mercado Pago:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+app.get("/api/payments", (req, res) => {
+  // Verificar si localStorage es compatible en el servidor
+  if (typeof localStorage !== "undefined") {
+    // Obtener los pagos del localStorage o enviar un array vacío si no hay datos
+    const payments = JSON.parse(localStorage.getItem("payments")) || [];
+    res.status(200).json(payments);
+  } else {
+    res.status(500).json({ error: "localStorage no es compatible en el servidor." });
+  }
 });
 
 // Función para verificar si un usuario ya existe en la base de datos por correo electrónico
@@ -180,7 +255,41 @@ app.delete("/users/:id", (req, res) => {
   });
 });
 
+app.post('/crearorden', async (req, res) => {
+  try {
+    const { fechaCompra, estado, total } = req.body;
 
+    const connection = await pool.getConnection();
+    await connection.query(
+      'INSERT INTO subs (fechaCompra, estado, total) VALUES (?, ?, ?)',
+      [fechaCompra, estado, total]
+    );
+    connection.release();
+
+    res.status(200).json({ message: 'Orden creada exitosamente' });
+  } catch (error) {
+    console.error('Error al crear la orden:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+
+app.post('/loginadmin', (peticion, respuesta) => {
+  const sql = "select * from users where email= ? and contrasenia= ? and estatus= 2";
+  console.log(peticion.body);
+  pool.query(sql, [peticion.body.email, peticion.body.contrasenia],
+      (error, resultado) => {
+          if (error) return respuesta.json({ mensaje: "error" });
+          if (resultado.length > 0) {
+              const token = jwt.sign({ usuario: 'administrador' }, 'admin', { expiresIn: '1d' });
+              // Establecer la cookie del token en la respuesta
+              respuesta.cookie('adminToken', token, { httpOnly: true, maxAge: 86400000 }); // 1 día en milisegundos
+              return respuesta.json({ Estatus: "CORRECTO", token: token });
+          } else {
+              return respuesta.json({ Estatus: "ERROR", Error: "usuario o contraseña incorrecta" });
+          }
+      });
+});
 
 const PORT = process.env.PORT || 8082;
 

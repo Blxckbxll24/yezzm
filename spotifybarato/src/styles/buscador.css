@@ -12,8 +12,7 @@
     margin-left: 360px;
     border-radius: 10px;
     width: 80%;   
-    min-height: 700px;
-    height: 520%;
+    min-height: 800px;
     position: relative;
 }
 .search-input:hover{
@@ -26,7 +25,6 @@
        margin-bottom: 10px ;
        margin-left: 10px;
        border-radius: 55%;
-       margin-left: 2%;
 }
 /* Estilo para el contenedor de búsqueda */
 .search-container {
@@ -39,8 +37,9 @@
 
 /* Estilo para el campo de entrada de búsqueda */
 .search-input {
-    padding: 20px;
+    padding: 10px;
     width: 40%;
+    height: 55px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 90px;
@@ -190,6 +189,7 @@
     font: bold;
     border: none;
     margin-left: 15px;
+    margin-top: 5px;
 }
 .dibo{
     margin-left: 70%;
@@ -197,3 +197,103 @@
     display: flex;
     margin-top: 10px;
 }
+
+/* Buscador de videos */
+
+.grende {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 250px;
+  }
+  
+  .search-contenedor {
+    /* Fija el elemento en su lugar */
+    top: 0; /* Lo ubica en la parte superior de la pantalla */
+    left: 250px; /* Lo desplaza para dejar espacio al menú lateral */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: calc(100% - 250px); /* Ajusta el ancho para ocupar todo el espacio disponible */
+  }
+  
+  .search-inputt {
+    width: 300px;
+    height: 30px;
+    padding: 25px;
+    margin-right: 10px;
+    border-radius: 30px;
+    border: none;
+  }
+  
+  .buscar {
+    background-color: rgb(86, 134, 60);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 3px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .results-containerr {
+    width: 100%;
+  }
+  
+  .list {
+    list-style-type: none;
+    padding: 0;
+    color: white;
+    margin-top: 80px;
+  }
+  
+  .list li:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .teme {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #161616;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .video-container {
+    width: calc(100% - 20px);
+  }
+  
+  .video-container {
+    width: calc(100% - 20px);
+    border: 5px solid #181818; /* Agrega un borde */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Agrega un sombreado */
+    margin-bottom: 20px; /* Agrega un margen inferior para separar los videos */
+    background-color: #131313;
+  }
+  
+  .ventana-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .ventana {
+    width: calc(100% - 20px);
+    height: calc(33vw * (9 / 16));
+    margin-left: 10px;
+  }
+  
+  .ventana iframe {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .selection {
+    margin-top: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
