@@ -49,7 +49,7 @@ const YouTubeMusicSearch = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Buscar Video"
-        className="search-video"
+        className="search-input"
       />
       <button className='buscar' onClick={searchMusic}>Buscar</button>
       

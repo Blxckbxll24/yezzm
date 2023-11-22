@@ -25,6 +25,12 @@ function SavedPlaylist() {
         // Actualizar el estado y localStorage
         setLikedPlaylist(updatedLikedPlaylist);
         localStorage.setItem('likedPlaylist', JSON.stringify(updatedLikedPlaylist));
+        const updatedLikedAlbum = [...likedAlbum];
+        // Eliminar la canción en el índice dado
+        updatedLikedAlbum.splice(index, 1);
+        // Actualizar el estado y localStorage
+        setLikedAlbum(updatedLikedAlbum);
+        localStorage.setItem('likedAlbum', JSON.stringify(updatedLikedAlbum));
     };
 
     useEffect(() => {
@@ -45,10 +51,10 @@ function SavedPlaylist() {
             }} className={styles.container}>
                 <aside>
                     <div className={styles.menu}>
-                        <Link className={styles.active} to="/inicio"><span><img src={require('../images/home.svg')} alt="" /></span>Inicio</Link>
+                        <Link  to="/inicio"><span><img src={require('../images/home.svg')} alt="" /></span>Inicio</Link>
                         <Link to='/buscador'><span><img src={require('../images/search.svg')} alt="" /></span>Buscar</Link>
                         <Link to="/likeit"><span><img src={require('../images/heart.svg')} alt="" /></span>Canciones que te gustan</Link>
-                        <Link to="/agregados"><span><img src={require('../images/add.svg')} alt="" /></span>Albumes & Playlist guardadas</Link>
+                        <Link className={styles.active} to="/agregados"><span><img src={require('../images/add.svg')} alt="" /></span>Albumes & Playlist guardadas</Link>
                     </div>
                 </aside>
 

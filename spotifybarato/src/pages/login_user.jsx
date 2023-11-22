@@ -15,6 +15,7 @@ function Login() {
     localStorage.setItem('facebookUserData', JSON.stringify(response));
     setUserData(response);
     console.log("URL de la imagen de perfil de Facebook:", response.picture);
+    navigate('/inicio');
   };
 
   const handleLogout = () => {
@@ -27,12 +28,16 @@ function Login() {
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
+
       localStorage.setItem('googleUserData', JSON.stringify(codeResponse));
       setUser(codeResponse);
       setLoggedIn(true);
+      
+      
       navigate("/inicio")
     },
     onError: (error) => console.log("Login Failed:", error),
+    
   });
 
   useEffect(() => {

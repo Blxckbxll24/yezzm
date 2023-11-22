@@ -16,20 +16,6 @@ function Registro() {
                     <img src={require('../images/Untitled.png')} alt="Logo" />
                 </div>
                 <h2>Regístrate gratis para escuchar</h2>
-                <button className={styles.facebookbutton}>Iniciar sesión con Facebook</button>
-                <button class={styles.googlebutton}><GoogleOAuthProvider clientId="1065046042069-olh6j8d8q23gbleel6o8oqpp5qhi57pt.apps.googleusercontent.com">
-                    <GoogleLogin
-                        onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
-                        }}
-                        onError={() => {
-                            console.log('Login Failed');
-                        }}
-
-
-                    />
-                    
-                </GoogleOAuthProvider></button>
                 <form>
                     <p>Ingresa tu correo</p>
                     <input type="email" placeholder="Email" />
