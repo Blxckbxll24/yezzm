@@ -16,6 +16,7 @@ function Inicio() {
         const storedUserDataFacebook = localStorage.getItem('facebookUserData');
         if (storedUserDataFacebook) {
             setProfile(JSON.parse(storedUserDataFacebook));
+            setLoggedIn(true);
         }
 
 

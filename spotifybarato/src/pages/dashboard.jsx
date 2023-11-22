@@ -28,8 +28,10 @@ function Dash() {
             <div className="contenedor-dash1">
               <h2 className="yezz">Yeezy Music</h2>
               <div className="carta-dash1">
+                 
                 <img className="grupo-dash1" src={Unit} alt="" />
                 <h2 className="dash1">Dashboard</h2>
+                
               </div>
               <hr />
               <h4 className="ges1">Gestión</h4>

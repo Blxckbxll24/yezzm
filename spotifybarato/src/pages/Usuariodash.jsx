@@ -22,20 +22,20 @@ function Usuarios() {
   const [usuarioS, setusuarioS] = useState(null);
   const [usuarioActualizar, setUsuarioActualizar] = useState({
     nombre:'',
-    apellido:'',
-    username: "",
+    email:'',
+    nickname: "",
     password: ""
   });
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre:'',
-    apellido:'',
-    username: "",
+    email:'',
+    nickname: "",
     password: ""
   });
 
   const fecthUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/users')
+      const response = await axios.get('http://localhost:8082/users')
       setUsers(response.data)
       console.log('Datos de la api')
       console.log(response.data)
@@ -44,7 +44,7 @@ function Usuarios() {
     }
   }
   const HandeDelte = async (id) => {
-    const response = await axios.delete(`http://localhost:3001/users/${id}`);
+    const response = await axios.delete(`http://localhost:8082/users/${id}`);
     if (response.status === 200) {
       alert("Se borro correctamente el usuario")
     } else {
@@ -54,32 +54,33 @@ function Usuarios() {
   }
 
   const handleActualizarModalOpen = (usuario) => {
-    setUsuarioActualizar(usuario);
+    setUsuarioActualizar({
+      id: usuario.id,
+      nombre: usuario.name,
+      email: usuario.email,
+      nickname: usuario.nickname,
+      password: usuario.contrasenia
+    });
     setShowActualizarModal(true);
   };
 
   const handleActualizarModalClose = () => {
     setShowActualizarModal(false);
-    setUsuarioActualizar({
-      username: "",
-      password: "",
-      createdAt: ""
-    });
   };
 
   const handleActualizarClick = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3001/users/${usuarioActualizar.id}`, {
+      const response = await axios.put(`http://localhost:8082/users/${usuarioActualizar.id}`, {
       nombre: usuarioActualizar.nombre,
-      apellido: usuarioActualizar.apellido,
-      username: usuarioActualizar.username,
-      password: usuarioActualizar.password
+      email: usuarioActualizar.email,
+      nickname: usuarioActualizar.nickname,
+      password: usuarioActualizar.password 
       });
 
       console.log('Response:', response);
 
       if (response.status === 200) {
-        const updatedUsersResponse = await axios.get("http://localhost:3001/users/");
+        const updatedUsersResponse = await axios.get("http://localhost:8082/users/");
         setUsers(updatedUsersResponse.data);
         handleActualizarModalClose();
       } else {
@@ -100,8 +101,8 @@ function Usuarios() {
     setNuevoUsuario({
 
       nombre:"",
-      apellido:"", 
-      username: "",
+      email:"", 
+      nickname: "",
       password: ""
     });
   };
@@ -109,10 +110,10 @@ function Usuarios() {
 
   const handleAgregarClick = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/users/", nuevoUsuario); // los 3001 es la conexion a nest
+      const response = await axios.post("http://localhost:8082/users/", nuevoUsuario); // los 3001 es la conexion a nest
 
       if (response.status === 201) {
-        const updatedUsersResponse = await axios.get("http://localhost:3001/users/");
+        const updatedUsersResponse = await axios.get("http://localhost:8082/users/");
         setUsers(updatedUsersResponse.data);
         handleAgregarModalClose();
       } else {
@@ -158,7 +159,7 @@ function Usuarios() {
                           Nombre
                         </th>
                         <th scope="" class="">
-                          Apellidos
+                          Email
                         </th>
                         <th scope="" class="">
                           Nombre de usuario
@@ -182,16 +183,16 @@ function Usuarios() {
                       {Users.map((users) => (
                         <tr class="">
                           <td class="px-6 py-4">
-                            {users.nombre}
+                            {users.name}
                           </td>
                           <td class="px-6 py-4">
-                            {users.apellido}
+                            {users.email}
                           </td>
                           <td class="px-6 py-4">
-                            {users.username}
+                            {users.nickname}
                           </td>
                           <td class="px-6 py-4">
-                            {users.password}
+                            {users.contrasenia}
                           </td>
                           <td class="botones">
                           <a class="link" onClick={() => handleActualizarModalOpen(users)}>Editar</a>
@@ -234,8 +235,8 @@ function Usuarios() {
                             type="text"
                             className="form-control"
                             id="username"
-                            value={usuarioActualizar.apellido}
-                            onChange={(e) => setUsuarioActualizar({ ...usuarioActualizar, apellido: e.target.value })}
+                            value={usuarioActualizar.email}
+                            onChange={(e) => setUsuarioActualizar({ ...usuarioActualizar, email: e.target.value })}
                           />
                         </div>
                         <div className="mb-3">
@@ -246,8 +247,8 @@ function Usuarios() {
                             type="text"
                             className="form-control"
                             id="username"
-                            value={usuarioActualizar.username}
-                            onChange={(e) => setUsuarioActualizar({ ...usuarioActualizar, username: e.target.value })}
+                            value={usuarioActualizar.nickname}
+                            onChange={(e) => setUsuarioActualizar({ ...usuarioActualizar, nickname: e.target.value })}
                           />
                         </div>
                         <div className="mb-3">
@@ -293,10 +294,10 @@ function Usuarios() {
                         <Form.Group className="mb-3" controlId="formApellido">
                           <Form.Label>Apellido del usuario</Form.Label>
                           <Form.Control
-                            type="text"
+                            type="email"
                             placeholder="Ingrese el apellido del usuario"
-                            value={nuevoUsuario.apellido}
-                            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, apellido: e.target.value })}
+                            value={nuevoUsuario.email}
+                            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, email: e.target.value })}
                           />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formUsername">
@@ -304,8 +305,8 @@ function Usuarios() {
                           <Form.Control
                             type="text"
                             placeholder="Ingrese el sobrenombre del usuario"
-                            value={nuevoUsuario.username}
-                            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, username: e.target.value })}
+                            value={nuevoUsuario.nickname}
+                            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nickname: e.target.value })}
                           />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formPassword">

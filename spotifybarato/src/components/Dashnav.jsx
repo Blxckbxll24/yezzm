@@ -21,10 +21,14 @@ function Dashnav() {
           <div class="listado">
             <div className="contenedor-dash">
               <h2 className="yezz">Yeezy Music</h2>
+              <Link className="grupo-dash" to='/dash'>
               <div className="carta-dash">
+                
                 <img className="grupo-dash" src={Unit} alt="" />
                 <h2 className="dash">Dashboard</h2>
+                
               </div>
+              </Link>
               <hr />
               <h4 className="ges">Gestión</h4>
 

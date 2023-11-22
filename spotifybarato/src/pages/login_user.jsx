@@ -16,7 +16,23 @@ function Login() {
     setUserData(response);
     console.log("URL de la imagen de perfil de Facebook:", response.picture);
     navigate('/inicio');
+
+    axios.post('http://localhost:8082/api/facebook', {
+      facebookId: response.id,
+      name: response.name,
+      email: response.email,
+      picture: response.picture.data.url
+    })
+      .then((res) => {
+        console.log(res.data);
+        // Realizar acciones adicionales si es necesario
+      })
+      .catch((err) => {
+        console.error('Error al enviar datos a Facebook al servidor: ' + err.message);
+      });
   };
+  
+  
 
   const handleLogout = () => {
     setUserData(null);
@@ -27,19 +43,56 @@ function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
+    onSuccess: async (codeResponse) => {
+      try {
+        if (codeResponse && codeResponse.access_token) {
+          localStorage.setItem("googleUserData", JSON.stringify(codeResponse));
+          setLoggedIn(true);
 
-      localStorage.setItem('googleUserData', JSON.stringify(codeResponse));
-      setUser(codeResponse);
-      setLoggedIn(true);
-      
-      
-      navigate("/inicio")
+          // Obtener información del usuario con el token de acceso
+          const userInfoResponse = await axios.get(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,{
+              headers: {
+                  Authorization: `Bearer ${user.access_token}`,
+                  Accept: "application/json",
+              },
+            });
+
+          // Acceder al nombre y al correo electrónico del usuario
+          const { name, email } = userInfoResponse.data;
+          
+
+          // Envía las propiedades necesarias al servidor
+          const response = await axios.post("http://localhost:8082/api/google", {
+            googleId: codeResponse.googleId,
+            name,
+            email,
+            // otras propiedades según sea necesario
+          });
+
+          console.log(response.data);
+          // Realizar acciones adicionales si es necesario
+
+          navigate("/inicio");
+        } else {
+          console.error(
+            "La respuesta de Google no contiene el token de acceso (access_token)."
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Error al enviar datos a Google al servidor:",
+          error.message
+        );
+      }
     },
     onError: (error) => console.log("Login Failed:", error),
-    
   });
-
+  
+  
+  
+  
+  
   useEffect(() => {
     const storedUserData = localStorage.getItem('googleUserData');
     if (storedUserData) {
